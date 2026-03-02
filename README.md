@@ -11,6 +11,14 @@ MLR assignment in Information Retrieval subject.
 ## Download CSV files
 On the LOINC website, I searched for the 3 queries ("glucose in blood", "bilirubin in plasma", "White blood cells count") written in the guidelines and downloaded the data. I stored them in the `CSV/` folder.
 
+Because the manual procedure take time, we downloaded the official LOINC 2.82 release and added it directly to the project. Instead of manually exporting results from the LOINC website for each query, we generate our query-specific datasets automatically from the full LOINC table (see extractQuery.py). 
+
+Concretely, we define a list of queries (e.g., “glucose in blood”, “bilirubin in plasma”, “white blood cells count”), then run our script to filter the LOINC table and export one CSV per query. Each exported file is stored in the CSV/ folder and is named following the pattern:
+
+Loinc_2.82_<query_slug>.csv
+
+This makes the dataset creation reproducible and allows us to scale to many queries without repetitions or manual downloads.
+
 ## Treatment of CSV files
 To construct the training dataset, I extracted the most effective metrics from the foundational AdaRank paper. These features include:
 - **Word Overlap:** The count of exact query words present in the document.
