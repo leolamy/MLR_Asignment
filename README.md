@@ -29,3 +29,14 @@ java -jar RankLib-2.16.jar -train dataset_adarank.txt -ranker 3 -metric2t NDCG@5
 ```
 ## Future improvements 
 expand dataset in queries (adding new data to the dataset)
+-> overfit a lot
+
+## Results 
+with 3 queries 
+-> overfits a lot, stop at iteration one,  0.8687 training accuracy 
+
+## Queries 
+- Glucose in blood
+- bilirubin in plasma 
+- White blood cells count
+- Calcium Urine
