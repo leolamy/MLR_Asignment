@@ -10,7 +10,15 @@ query_mapping = {
     "Loinc_2.82_Glucose.csv": "glucose in blood",
     "Loinc_2.82_Bilirubin.csv": "bilirubin in plasma",
     "Loinc_2.82_WhiteBlood.csv": "white blood cells count",
-    "Loinc_2.82_calciumUrine.csv": "calcium in urine"
+    "Loinc_2.82_calciumUrine.csv": "calcium in urine",
+    "Loinc_2.82_Bilirubin.csv": "bilirubin in plasma",
+    "Loinc_2.82_WhiteBlood.csv": "white blood cells count",
+    "Loinc_2.82_calciumUrine.csv": "calcium in urine",
+    "Loinc_2.82_Creatinine_in_serum.csv": "creatinine in serum",
+    "Loinc_2.82_cholesterol_total_in serum.csv": "cholesterol total in serum",
+    "Loinc_2.82_protein_in_urine.csv": "protein in urine",
+    "Loinc_2.82_sodium_in_serum.csv": "sodium in serum",
+    "Loinc_2.82_urea_nitrogen_in_blood.csv": "urea nitrogen in blood",
 }
 
 df_list = []
