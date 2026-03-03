@@ -26,14 +26,15 @@ To construct the training dataset, I extracted the most effective metrics from t
 - **Document Length:** Used to normalize scores, acknowledging that shorter documents containing the keyword are often more relevant.
 - **TF-IDF:** A metric that weights the term frequency by the rarity of the word across the entire document collection.
 - **BM25 Score:** A state-of-the-art information retrieval metric, which is directly integrated as a feature for the AdaRank algorithm.
-
+- **Business Alignment**
+- **Syntax similarity**
 ## How to Run the Project
 
 **1. Generate the training dataset**
 Run the Python script to parse the CSVs and extract features:
 ```bash
 python3 csv_treatment.py
-java -jar RankLib-2.16.jar -train dataset_adarank.txt -ranker 3 -metric2t NDCG@5 -norm zscore -save model_adarank.txt
+java -jar RankLib-2.16.jar -train dataset_adarank.txt -ranker 3 -metric2t NDCG@5 -norm zscore -kcv 5 -save model_adarank.txt
 ```
 ## Future improvements 
 expand dataset in queries (adding new data to the dataset)
