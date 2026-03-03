@@ -9,7 +9,7 @@ MLR assignment in Information Retrieval subject.
 - `model_adarank.txt` : The output file containing the trained AdaRank model parameters.
 
 ## Download CSV files
-On the LOINC website, I searched for the 3 queries ("glucose in blood", "bilirubin in plasma", "White blood cells count") written in the guidelines and downloaded the data. I stored them in the `CSV/` folder.
+On the LOINC website, we searched for the 3 queries ("glucose in blood", "bilirubin in plasma", "White blood cells count") written in the guidelines and downloaded the data. we stored them in the `CSV/` folder.
 
 Because the manual procedure take time, we downloaded the official LOINC 2.82 release and added it directly to the project. Instead of manually exporting results from the LOINC website for each query, we generate our query-specific datasets automatically from the full LOINC table (see extractQuery.py). 
 
