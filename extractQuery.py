@@ -5,22 +5,15 @@ import pandas as pd
 # -----------------------------
 # 1) CONFIG
 # -----------------------------
-PROJECT_ROOT = Path(__file__).resolve().parent  # assumes script is in project root
+PROJECT_ROOT = Path(__file__).resolve().parent 
 LOINC_DIR = PROJECT_ROOT / "Loinc_2.82"
-
-# Put here the actual main CSV file from the LoincTable folder.
-# Common names you may find: "Loinc.csv", "LoincTable.csv", "LoincTableCore.csv"
-# If you don't know, run this script once and it will print available CSVs.
-LOINC_TABLE_PATH = None  # <-- will auto-detect if None
 
 OUTPUT_DIR = LOINC_DIR / "GeneratedCSVs"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 MAPPING_TXT_PATH = OUTPUT_DIR / "query_mapping_new.txt"
 
-# Add as many queries as you want here:
 QUERIES = [
-    # ---- Metabolic / chemistry (new) ----
     "carbon dioxide in serum",
     "blood urea in serum",
     "blood urea in urine",
@@ -68,8 +61,6 @@ QUERIES = [
     "biotin in serum",
     "vitamin k in plasma",
     "vitamin k in serum",
-
-    # ---- Iron / nutrition (new) ----
     "transferrin in serum",
     "transferrin in plasma",
     "unsaturated iron binding capacity in serum",
@@ -80,8 +71,6 @@ QUERIES = [
     "soluble transferrin receptor in plasma",
     "retinol binding protein in serum",
     "prealbumin in serum",
-
-    # ---- Immunology / autoantibodies (new) ----
     "antinuclear antibody in serum",
     "rheumatoid factor in serum",
     "anti ccp antibody in serum",
@@ -104,8 +93,6 @@ QUERIES = [
     "immunoglobulin a in serum",
     "immunoglobulin m in serum",
     "immunoglobulin e in serum",
-
-    # ---- Endocrine / hormones (new, not previously listed) ----
     "dhea sulfate in serum",
     "17 hydroxyprogesterone in serum",
     "androstenedione in serum",
@@ -125,8 +112,6 @@ QUERIES = [
     "vanillylmandelic acid in urine",
     "homovanillic acid in urine",
     "5 hydroxyindoleacetic acid in urine",
-
-    # ---- Hematology (new) ----
     "reticulocytes count in blood",
     "reticulocyte hemoglobin in blood",
     "immature granulocytes count in blood",
@@ -145,8 +130,6 @@ QUERIES = [
     "serum free light chains kappa",
     "serum free light chains lambda",
     "kappa lambda ratio in serum",
-
-    # ---- Coagulation / hemostasis (new) ----
     "activated partial thromboplastin time in plasma",
     "fibrinogen in serum",
     "factor viii activity in plasma",
@@ -160,8 +143,6 @@ QUERIES = [
     "protein s activity in plasma",
     "lupus anticoagulant in plasma",
     "anti xa activity in plasma",
-
-    # ---- Urine / kidney related (new) ----
     "uric acid in urine",
     "oxalate in urine",
     "citrate in urine",
@@ -182,8 +163,6 @@ QUERIES = [
     "urine ketones",
     "urine bilirubin",
     "urine urobilinogen",
-
-    # ---- Drugs / therapeutic drug monitoring (new) ----
     "vancomycin trough in serum",
     "gentamicin trough in serum",
     "amikacin trough in serum",
@@ -204,8 +183,6 @@ QUERIES = [
     "cyclosporine in whole blood",
     "sirolimus in whole blood",
     "everolimus in whole blood",
-
-    # ---- Infectious disease (new, avoiding the ones you already used) ----
     "epstein barr virus capsid igm antibody in serum",
     "epstein barr virus capsid igg antibody in serum",
     "cytomegalovirus igm antibody in serum",
@@ -226,8 +203,6 @@ QUERIES = [
     "rotavirus antigen in stool",
     "norovirus rna in stool",
     "campylobacter jejuni rna in stool",
-
-    # ---- Respiratory / allergy (new) ----
     "total igE in serum",
     "dust mite igE antibody in serum",
     "cat dander igE antibody in serum",
@@ -238,8 +213,6 @@ QUERIES = [
     "egg white igE antibody in serum",
     "milk igE antibody in serum",
     "wheat igE antibody in serum",
-
-    # ---- CSF / special fluids (new) ----
     "lactate in cerebrospinal fluid",
     "oligoclonal bands in cerebrospinal fluid",
     "immunoglobulin g index in cerebrospinal fluid",
@@ -247,8 +220,6 @@ QUERIES = [
     "opening pressure in cerebrospinal fluid",
     "protein electrophoresis in serum",
     "immunofixation in serum",
-
-    # ---- Stool / GI (new, avoiding what you used) ----
     "fecal fat in stool",
     "pancreatic elastase in stool",
     "lactoferrin in stool",
@@ -259,8 +230,6 @@ QUERIES = [
     "shiga toxin in stool",
     "salmonella rna in stool",
     "shigella rna in stool",
-
-    # ---- Panels (new) ----
     "basic metabolic panel in serum",
     "comprehensive metabolic panel in serum",
     "hepatic function panel in serum",
@@ -271,10 +240,8 @@ QUERIES = [
     "urinalysis panel in urine",
 ]
 
-# Minimal number of matches required to export a CSV (avoid tiny/noisy files)
 MIN_ROWS_TO_EXPORT = 5
 
-# Columns used to match text queries (depends on the LOINC table you have)
 TEXT_COLUMNS_CANDIDATES = [
     "LONG_COMMON_NAME",
     "SHORTNAME",
@@ -286,9 +253,6 @@ TEXT_COLUMNS_CANDIDATES = [
     "STATUS_TEXT",
 ]
 
-# -----------------------------
-# 2) HELPERS
-# -----------------------------
 def slugify_query(q: str) -> str:
     # create a filename-friendly slug
     slug = q.strip().lower()
@@ -321,16 +285,12 @@ def autodetect_loinc_csv(loinc_dir: Path) -> Path:
     )
     return preferred[0]
 
-# -----------------------------
-# 3) LOAD LOINC TABLE
-# -----------------------------
 if LOINC_TABLE_PATH is None:
     LOINC_TABLE_PATH = autodetect_loinc_csv(LOINC_DIR)
     print(f"[INFO] Auto-detected LOINC table CSV: {LOINC_TABLE_PATH}")
 
 loinc = pd.read_csv(LOINC_TABLE_PATH, low_memory=False)
 
-# Keep only columns that exist
 TEXT_COLUMNS = [c for c in TEXT_COLUMNS_CANDIDATES if c in loinc.columns]
 if not TEXT_COLUMNS:
     raise ValueError(
@@ -338,13 +298,9 @@ if not TEXT_COLUMNS:
         f"Available columns include: {list(loinc.columns)[:30]}..."
     )
 
-# Fill NaNs in text columns once
 for c in TEXT_COLUMNS:
     loinc[c] = loinc[c].fillna("").astype(str)
 
-# -----------------------------
-# 4) GENERATE CSVs + MAPPING TXT
-# -----------------------------
 mapping_lines = []
 exported = 0
 skipped = 0
@@ -372,7 +328,6 @@ for q in QUERIES:
         skipped += 1
         print(f"[SKIP] {q} -> only {n} rows (min={MIN_ROWS_TO_EXPORT})")
 
-# Write mapping txt
 with open(MAPPING_TXT_PATH, "w", encoding="utf-8") as f:
     f.write("query_mapping_additions = {\n")
     for line in mapping_lines:
