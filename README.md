@@ -34,7 +34,7 @@ To construct the training dataset, I extracted the most effective metrics from t
 Run the Python script to parse the CSVs and extract features:
 ```bash
 python3 csv_treatment.py
-java -jar RankLib-2.16.jar -train dataset_adarank.txt -ranker 3 -metric2t NDCG@5 -norm zscore -kcv 5 -save model_adarank.txt
+java -jar RankLib-2.16.jar -train train_dataset.txt -ranker 3 -metric2t NDCG@5 -norm zscore -kcv 5 -save model_adarank.txt
 ```
 ## Future improvements 
 expand dataset in queries (adding new data to the dataset)
@@ -45,7 +45,28 @@ with 3 queries
 -> overfits a lot, stop at iteration one,  0.8687 training accuracy 
 
 ## Queries 
-- Glucose in blood
-- bilirubin in plasma 
-- White blood cells count
-- Calcium Urine
+### train
+- "glucose in blood",
+- "bilirubin in plasma",
+- "white blood cells count",
+- "potassium in serum",
+- "chloride in serum",
+- "urea nitrogen in blood",
+- "hemoglobin in blood",
+- "platelet count in blood",
+- "thyroid stimulating hormone in serum",
+- "alanine aminotransferase in serum",
+- "creatine kinase in serum",
+- "c reactive protein in serum",
+- "lactate dehydrogenase in serum",
+
+### test
+- "calcium in urine",
+- "sodium in serum",
+- "creatinine in serum",
+- "magnesium in serum",
+- "alkaline phosphatase in serum",
+- "albumin in serum",
+- "glucose in urine",
+- "bilirubin in urine",
+
